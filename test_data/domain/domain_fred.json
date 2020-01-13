@@ -1,0 +1,278 @@
+{
+  "status": [
+    "server transfer prohibited"
+  ],
+  "handle": "nic.cz",
+  "links": [
+    {
+      "rel": "self",
+      "value": "https://rdap.nic.cz/domain/nic.cz",
+      "type": "application/rdap+json",
+      "href": "https://rdap.nic.cz/domain/nic.cz"
+    }
+  ],
+  "port43": "whois.nic.cz",
+  "fred_keyset": {
+    "links": [
+      {
+        "rel": "self",
+        "value": "https://rdap.nic.cz/fred_keyset/CZNIC",
+        "type": "application/rdap+json",
+        "href": "https://rdap.nic.cz/fred_keyset/CZNIC"
+      }
+    ],
+    "handle": "CZNIC",
+    "objectClassName": "fred_keyset",
+    "dns_keys": [
+      {
+        "flags": 257,
+        "protocol": 3,
+        "publicKey": "LM4zvjUgZi2XZKsYooDE0HFYGfWp242fKB+O8sLsuox8S6MJTowY8lBDjZD7JKbmaNot3+1H8zU9TrDzWmmHwQ==",
+        "algorithm": 13
+      }
+    ]
+  },
+  "nameservers": [
+    {
+      "links": [
+        {
+          "rel": "self",
+          "value": "https://rdap.nic.cz/nameserver/a.ns.nic.cz",
+          "type": "application/rdap+json",
+          "href": "https://rdap.nic.cz/nameserver/a.ns.nic.cz"
+        }
+      ],
+      "ldhName": "a.ns.nic.cz",
+      "handle": "a.ns.nic.cz",
+      "objectClassName": "nameserver",
+      "ipAddresses": {
+        "v6": [
+          "2001:678:f::1"
+        ],
+        "v4": [
+          "194.0.12.1"
+        ]
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "value": "https://rdap.nic.cz/nameserver/b.ns.nic.cz",
+          "type": "application/rdap+json",
+          "href": "https://rdap.nic.cz/nameserver/b.ns.nic.cz"
+        }
+      ],
+      "ldhName": "b.ns.nic.cz",
+      "handle": "b.ns.nic.cz",
+      "objectClassName": "nameserver",
+      "ipAddresses": {
+        "v6": [
+          "2001:678:10::1"
+        ],
+        "v4": [
+          "194.0.13.1"
+        ]
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "value": "https://rdap.nic.cz/nameserver/d.ns.nic.cz",
+          "type": "application/rdap+json",
+          "href": "https://rdap.nic.cz/nameserver/d.ns.nic.cz"
+        }
+      ],
+      "ldhName": "d.ns.nic.cz",
+      "handle": "d.ns.nic.cz",
+      "objectClassName": "nameserver",
+      "ipAddresses": {
+        "v6": [
+          "2001:678:1::1"
+        ],
+        "v4": [
+          "193.29.206.1"
+        ]
+      }
+    }
+  ],
+  "secureDNS": {
+    "keyData": [
+      {
+        "flags": 257,
+        "protocol": 3,
+        "publicKey": "LM4zvjUgZi2XZKsYooDE0HFYGfWp242fKB+O8sLsuox8S6MJTowY8lBDjZD7JKbmaNot3+1H8zU9TrDzWmmHwQ==",
+        "algorithm": 13
+      }
+    ],
+    "delegationSigned": true,
+    "maxSigLife": 1209600,
+    "zoneSigned": true
+  },
+  "entities": [
+    {
+      "roles": [
+        "registrant"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "value": "https://rdap.nic.cz/entity/CZ-NIC",
+          "type": "application/rdap+json",
+          "href": "https://rdap.nic.cz/entity/CZ-NIC"
+        }
+      ],
+      "handle": "CZ-NIC",
+      "objectClassName": "entity"
+    },
+    {
+      "roles": [
+        "registrar"
+      ],
+      "handle": "REG-CZNIC",
+      "objectClassName": "entity"
+    },
+    {
+      "roles": [
+        "administrative"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "value": "https://rdap.nic.cz/entity/FEELA",
+          "type": "application/rdap+json",
+          "href": "https://rdap.nic.cz/entity/FEELA"
+        }
+      ],
+      "handle": "FEELA",
+      "objectClassName": "entity"
+    },
+    {
+      "roles": [
+        "administrative"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "value": "https://rdap.nic.cz/entity/MAPET",
+          "type": "application/rdap+json",
+          "href": "https://rdap.nic.cz/entity/MAPET"
+        }
+      ],
+      "handle": "MAPET",
+      "objectClassName": "entity"
+    }
+  ],
+  "rdapConformance": [
+    "rdap_level_0",
+    "fred_version_0"
+  ],
+  "notices": [
+    {
+      "title": "Disclaimer",
+      "description": [
+        "(c) 2015 CZ.NIC, z.s.p.o.",
+        "Intended use of supplied data and information",
+        "Data contained in the domain name register, as well as information supplied through public information services of CZ.NIC association, are appointed only for purposes connected with Internet network administration and operation, or for the purpose of legal or other similar proceedings, in process as regards a matter connected particularly with holding and using a concrete domain name."
+      ]
+    }
+  ],
+  "ldhName": "nic.cz",
+  "fred_nsset": {
+    "links": [
+      {
+        "rel": "self",
+        "value": "https://rdap.nic.cz/fred_nsset/CZ.NIC",
+        "type": "application/rdap+json",
+        "href": "https://rdap.nic.cz/fred_nsset/CZ.NIC"
+      }
+    ],
+    "handle": "CZ.NIC",
+    "objectClassName": "fred_nsset",
+    "nameservers": [
+      {
+        "links": [
+          {
+            "rel": "self",
+            "value": "https://rdap.nic.cz/nameserver/a.ns.nic.cz",
+            "type": "application/rdap+json",
+            "href": "https://rdap.nic.cz/nameserver/a.ns.nic.cz"
+          }
+        ],
+        "ldhName": "a.ns.nic.cz",
+        "handle": "a.ns.nic.cz",
+        "objectClassName": "nameserver",
+        "ipAddresses": {
+          "v6": [
+            "2001:678:f::1"
+          ],
+          "v4": [
+            "194.0.12.1"
+          ]
+        }
+      },
+      {
+        "links": [
+          {
+            "rel": "self",
+            "value": "https://rdap.nic.cz/nameserver/b.ns.nic.cz",
+            "type": "application/rdap+json",
+            "href": "https://rdap.nic.cz/nameserver/b.ns.nic.cz"
+          }
+        ],
+        "ldhName": "b.ns.nic.cz",
+        "handle": "b.ns.nic.cz",
+        "objectClassName": "nameserver",
+        "ipAddresses": {
+          "v6": [
+            "2001:678:10::1"
+          ],
+          "v4": [
+            "194.0.13.1"
+          ]
+        }
+      },
+      {
+        "links": [
+          {
+            "rel": "self",
+            "value": "https://rdap.nic.cz/nameserver/d.ns.nic.cz",
+            "type": "application/rdap+json",
+            "href": "https://rdap.nic.cz/nameserver/d.ns.nic.cz"
+          }
+        ],
+        "ldhName": "d.ns.nic.cz",
+        "handle": "d.ns.nic.cz",
+        "objectClassName": "nameserver",
+        "ipAddresses": {
+          "v6": [
+            "2001:678:1::1"
+          ],
+          "v4": [
+            "193.29.206.1"
+          ]
+        }
+      }
+    ]
+  },
+  "objectClassName": "domain",
+  "events": [
+    {
+      "eventAction": "registration",
+      "eventDate": "1997-10-30T00:00:00+00:00"
+    },
+    {
+      "eventAction": "expiration",
+      "eventDate": "2027-03-15T13:00:00+00:00"
+    },
+    {
+      "eventAction": "last changed",
+      "eventDate": "2016-11-22T14:07:40+00:00"
+    },
+    {
+      "eventAction": "transfer",
+      "eventDate": "2007-02-28T13:55:00+00:00"
+    }
+  ]
+}

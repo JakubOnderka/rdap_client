@@ -1,0 +1,33 @@
+{
+  "rdapConformance" :
+  [
+    "rdap_level_0"
+  ],
+  "notices" :
+  [
+    {
+      "title" : "Beverage Policy",
+      "description" :
+      [
+        "Beverages with caffeine for keeping horses awake."
+      ],
+      "links" :
+      [
+        {
+          "value" : "http://example.net/ip/192.0.2.0/24",
+          "rel" : "alternate",
+          "type" : "text/html",
+          "href" : "http://www.example.com/redaction_policy.html"
+        }
+      ]
+    }
+  ],
+  "lang" : "en",
+  "errorCode": 418,
+  "title": "Your beverage choice is not available",
+  "description":
+  [
+    "I know coffee has more ummppphhh.",
+    "Sorry, dude!"
+  ]
+}

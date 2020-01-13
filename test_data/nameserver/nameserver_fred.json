@@ -1,0 +1,26 @@
+{
+  "rdapConformance": [
+    "rdap_level_0"
+  ],
+  "handle": "a.ns.nic.cz",
+  "links": [
+    {
+      "rel": "self",
+      "value": "https://rdap.nic.cz/nameserver/a.ns.nic.cz",
+      "type": "application/rdap+json",
+      "href": "https://rdap.nic.cz/nameserver/a.ns.nic.cz"
+    }
+  ],
+  "notices": [
+    {
+      "title": "Disclaimer",
+      "description": [
+        "(c) 2015 CZ.NIC, z.s.p.o.",
+        "Intended use of supplied data and information",
+        "Data contained in the domain name register, as well as information supplied through public information services of CZ.NIC association, are appointed only for purposes connected with Internet network administration and operation, or for the purpose of legal or other similar proceedings, in process as regards a matter connected particularly with holding and using a concrete domain name."
+      ]
+    }
+  ],
+  "ldhName": "a.ns.nic.cz",
+  "objectClassName": "nameserver"
+}

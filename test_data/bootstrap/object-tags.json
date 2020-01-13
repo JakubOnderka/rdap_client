@@ -1,0 +1,52 @@
+{
+  "description": "RDAP bootstrap file for service provider object tags",
+  "publication": "2019-06-07T19:00:02Z",
+  "services": [
+    [
+      [
+        "andy@arin.net"
+      ],
+      [
+        "ARIN"
+      ],
+      [
+        "https://rdap.arin.net/registry/",
+        "http://rdap.arin.net/registry/"
+      ]
+    ],
+    [
+      [
+        "carlos@lacnic.net"
+      ],
+      [
+        "LACNIC"
+      ],
+      [
+        "https://rdap.lacnic.net/rdap/"
+      ]
+    ],
+    [
+      [
+        "bje@apnic.net"
+      ],
+      [
+        "APNIC"
+      ],
+      [
+        "https://rdap.apnic.net/"
+      ]
+    ],
+    [
+      [
+        "kranjbar@ripe.net"
+      ],
+      [
+        "RIPE"
+      ],
+      [
+        "https://rdap.db.ripe.net/"
+      ]
+    ]
+  ],
+  "version": "1.0"
+}

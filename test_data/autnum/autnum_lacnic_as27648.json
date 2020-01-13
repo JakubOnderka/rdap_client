@@ -1,0 +1,193 @@
+{
+  "objectClassName":"autnum",
+  "handle":"27648",
+  "type":"DIRECT ALLOCATION",
+  "events":[
+    {
+      "eventAction":"registration",
+      "eventDate":"2002-11-27T15:00:00Z"
+    },
+    {
+      "eventAction":"last changed",
+      "eventDate":"2005-02-25T14:00:00Z"
+    }
+  ],
+  "entities":[
+    {
+      "objectClassName":"entity",
+      "handle":"VE-TBCA1-LACNIC",
+      "vcardArray":[
+        "vcard",
+        [
+          [
+            "version",
+            {
+
+            },
+            "text",
+            "4.0"
+          ],
+          [
+            "fn",
+            {
+
+            },
+            "text",
+            "TELECOMUNICACIONES BANTEL, C.A."
+          ],
+          [
+            "kind",
+            {
+
+            },
+            "text",
+            "individual"
+          ]
+        ]
+      ],
+      "roles":[
+        "registrant"
+      ],
+      "links":[
+        {
+          "value":"https://rdap.lacnic.net/rdap/entity/VE-TBCA1-LACNIC",
+          "rel":"self",
+          "type":"application/rdap+json",
+          "href":"https://rdap.lacnic.net/rdap/entity/VE-TBCA1-LACNIC"
+        }
+      ]
+    }, {
+      "objectClassName":"entity",
+      "handle":"ROG",
+      "roles":[
+        "technical", "abuse"
+      ],
+      "vcardArray":[
+        "vcard",
+        [
+          [
+            "version",
+            {
+
+            },
+            "text",
+            "4.0"
+          ],
+          [
+            "fn",
+            {
+
+            },
+            "text",
+            "Alexander Perez"
+          ],
+          [
+            "kind",
+            {
+
+            },
+            "text",
+            "individual"
+          ],
+          [
+            "adr",
+            {
+
+            },
+            "text",
+            [
+              "",
+              "1",
+              "Calle Londres, Edf. MATU, PH Las Mercedes 1",
+              "Caracas",
+              "DF",
+              "1060",
+              "VE"
+            ]
+          ],
+          [
+            "tel",
+            {
+              "type":"voice"
+            },
+            "text",
+            "58  2129930622#0000"
+          ],
+          [
+            "email",
+            {
+
+            },
+            "text",
+            "aperez@bantel.net.ve"
+          ]
+        ]
+      ],
+      "events":[
+        {
+          "eventAction":"registration",
+          "eventDate":"2002-11-14T15:00:00Z"
+        },
+        {
+          "eventAction":"last changed",
+          "eventDate":"2017-07-14T02:41:10Z"
+        }
+      ],
+      "links":[
+        {
+          "value":"https://rdap.lacnic.net/rdap/entity/ROG",
+          "rel":"self",
+          "type":"application/rdap+json",
+          "href":"https://rdap.lacnic.net/rdap/entity/ROG"
+        }
+      ]
+    }
+  ],
+  "links":[
+    {
+      "value":"https://rdap.lacnic.net/rdap/autnum/27648",
+      "rel":"self",
+      "type":"application/rdap+json",
+      "href":"https://rdap.lacnic.net/rdap/autnum/27648"
+    }
+  ],
+  "rdapConformance":[
+    "rdap_level_0"
+  ],
+  "notices":[
+    {
+      "title":"RDAP Cache",
+      "description":[
+        "This object is stored in a temporary cache.",
+        "Rdap objects may take up to 4 hours to refresh."
+      ]
+    },
+    {
+      "title":"Terms and Conditions",
+      "description":[
+        "Terms and Conditions."
+      ],
+      "links":[
+        {
+          "value":"https://www.lacnic.net/rdap-terms-and-conditions",
+          "href":"https://www.lacnic.net/rdap-terms-and-conditions",
+          "type":"text/html"
+        }
+      ]
+    },
+    {
+      "title":"Privacy policy",
+      "description":[
+        "Privacy policy."
+      ],
+      "links":[
+        {
+          "value":"https://www.lacnic.net/privacy-policy",
+          "href":"https://www.lacnic.net/privacy-policy",
+          "type":"text/html"
+        }
+      ]
+    }
+  ],
+  "port43":"whois.lacnic.net"
+}

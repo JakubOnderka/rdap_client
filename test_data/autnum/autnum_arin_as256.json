@@ -1,0 +1,106 @@
+{
+  "rdapConformance" : [ "rdap_level_0" ],
+  "notices" : [ {
+    "title" : "Terms of Service",
+    "description" : [ "By using the ARIN RDAP/Whois service, you are agreeing to the RDAP/Whois Terms of Use" ],
+    "links" : [ {
+      "value" : "https://rdap.arin.net/registry/autnum/256",
+      "rel" : "about",
+      "type" : "text/html",
+      "href" : "https://www.arin.net/resources/registry/whois/tou/"
+    } ]
+  }, {
+    "title" : "Whois Inaccuracy Reporting",
+    "description" : [ "If you see inaccuracies in the results, please visit: " ],
+    "links" : [ {
+      "value" : "https://rdap.arin.net/registry/autnum/256",
+      "rel" : "about",
+      "type" : "text/html",
+      "href" : "https://www.arin.net/resources/registry/whois/inaccuracy_reporting/"
+    } ]
+  }, {
+    "title" : "Copyright Notice",
+    "description" : [ "Copyright 1997-2020, American Registry for Internet Numbers, Ltd." ]
+  } ],
+  "handle" : "AS256",
+  "startAutnum" : 256,
+  "endAutnum" : 256,
+  "name" : "DNIC-AS-00256",
+  "events" : [ {
+    "eventAction" : "last changed",
+    "eventDate" : "2011-07-05T12:48:24-04:00"
+  }, {
+    "eventAction" : "registration",
+    "eventDate" : "1988-12-09T00:00:00-05:00"
+  } ],
+  "links" : [ {
+    "value" : "https://rdap.arin.net/registry/autnum/256",
+    "rel" : "self",
+    "type" : "application/rdap+json",
+    "href" : "https://rdap.arin.net/registry/autnum/256"
+  }, {
+    "value" : "https://rdap.arin.net/registry/autnum/256",
+    "rel" : "alternate",
+    "type" : "application/xml",
+    "href" : "https://whois.arin.net/rest/asn/AS256"
+  } ],
+  "entities" : [ {
+    "handle" : "NNICN-1",
+    "vcardArray" : [ "vcard", [ [ "version", { }, "text", "4.0" ], [ "fn", { }, "text", "Navy Network Information Center (NNIC)" ], [ "adr", {
+      "label" : "2465 GUADALCANAL ROAD\r\nBLDG 1265\nVIRGINIA BEACH\nVA\n23459\nUnited States"
+    }, "text", [ "", "", "", "", "", "", "" ] ], [ "kind", { }, "text", "org" ] ] ],
+    "roles" : [ "registrant" ],
+    "links" : [ {
+      "value" : "https://rdap.arin.net/registry/autnum/256",
+      "rel" : "self",
+      "type" : "application/rdap+json",
+      "href" : "https://rdap.arin.net/registry/entity/NNICN-1"
+    }, {
+      "value" : "https://rdap.arin.net/registry/autnum/256",
+      "rel" : "alternate",
+      "type" : "application/xml",
+      "href" : "https://whois.arin.net/rest/org/NNICN-1"
+    } ],
+    "events" : [ {
+      "eventAction" : "last changed",
+      "eventDate" : "2011-08-17T09:47:03-04:00"
+    }, {
+      "eventAction" : "registration",
+      "eventDate" : "2006-09-21T13:15:25-04:00"
+    } ],
+    "entities" : [ {
+      "handle" : "REGIS10-ARIN",
+      "vcardArray" : [ "vcard", [ [ "version", { }, "text", "4.0" ], [ "adr", {
+        "label" : "3990 E. Broad Street\nColumbus\nOH\n43218\nUnited States"
+      }, "text", [ "", "", "", "", "", "", "" ] ], [ "fn", { }, "text", "Registration" ], [ "org", { }, "text", "Registration" ], [ "kind", { }, "text", "group" ], [ "email", { }, "text", "disa.columbus.ns.mbx.arin-registrations@mail.mil" ], [ "tel", {
+        "type" : [ "work", "voice" ]
+      }, "text", "+1-844-347-2457" ] ] ],
+      "roles" : [ "abuse", "administrative", "technical" ],
+      "links" : [ {
+        "value" : "https://rdap.arin.net/registry/autnum/256",
+        "rel" : "self",
+        "type" : "application/rdap+json",
+        "href" : "https://rdap.arin.net/registry/entity/REGIS10-ARIN"
+      }, {
+        "value" : "https://rdap.arin.net/registry/autnum/256",
+        "rel" : "alternate",
+        "type" : "application/xml",
+        "href" : "https://whois.arin.net/rest/poc/REGIS10-ARIN"
+      } ],
+      "events" : [ {
+        "eventAction" : "last changed",
+        "eventDate" : "2019-01-23T07:05:04-05:00"
+      }, {
+        "eventAction" : "registration",
+        "eventDate" : "2009-06-24T09:41:15-04:00"
+      } ],
+      "status" : [ "validated" ],
+      "port43" : "whois.arin.net",
+      "objectClassName" : "entity"
+    } ],
+    "port43" : "whois.arin.net",
+    "objectClassName" : "entity"
+  } ],
+  "port43" : "whois.arin.net",
+  "objectClassName" : "autnum"
+}

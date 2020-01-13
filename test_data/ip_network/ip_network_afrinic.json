@@ -1,0 +1,51 @@
+{
+  "lang" : "en",
+  "remarks" : [ {
+    "title" : "Remark",
+    "description" : [ "Vodacom Bussiness (ASN 36994)" ]
+  } ],
+  "notices" : [ {
+    "title" : "ABOUT",
+    "description" : [ "This is the AfriNIC RDAP server." ],
+    "links" : [ {
+      "value" : "https://rdap.afrinic.net/rdap/ip/41.0.0.0",
+      "rel" : "describedby",
+      "href" : "https://www.afrinic.net/support/whois-db/reference-manual",
+      "hreflang" : [ "en" ],
+      "type" : "text/html",
+      "title" : "AFRINIC Database Reference Manual",
+      "media" : "screen"
+    } ]
+  } ],
+  "handle" : "41.0.0.0 - 41.0.255.255",
+  "status" : [ "active" ],
+  "port43" : "whois.afrinic.net",
+  "type" : "ASSIGNED PA",
+  "country" : "ZA",
+  "entities" : [ {
+    "lang" : "en",
+    "handle" : "JH2-AFRINIC",
+    "status" : [ "active" ],
+    "port43" : "whois.afrinic.net",
+    "vcardArray" : [ "vcard", [ [ "version", { }, "text", "4.0" ], [ "kind", { }, "text", "individual" ], [ "fn", { }, "text", "Jacques Hendricks" ], [ "tel", {
+      "type" : "work"
+    }, "uri", "tel:+27-21-940-9498" ], [ "email", {
+      "type" : "work"
+    }, "text", "Jacques.hendricks@vodacom.co.za" ], [ "adr", {
+      "type" : "work"
+    }, "text", [ "Vodacom PTY (Ltd)", "", "", "", "", "", "" ] ] ] ],
+    "roles" : [ "administrative", "technical" ],
+    "objectClassName" : "entity",
+    "rdapConformance" : [ ]
+  } ],
+  "startAddress" : "41.0.0.0",
+  "endAddress" : "41.0.255.255",
+  "ipVersion" : "v4",
+  "parentHandle" : "41.0.0.0 - 41.31.255.255",
+  "cidr0_cidrs" : [ {
+    "v4prefix" : "41.0.0.0",
+    "length" : 16
+  } ],
+  "objectClassName" : "ip network",
+  "rdapConformance" : [ "rdap_level_0" ]
+}

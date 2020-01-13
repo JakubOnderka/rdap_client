@@ -1,0 +1,89 @@
+{
+  "status": [
+    "associated"
+  ],
+  "rdapConformance": [
+    "rdap_level_0"
+  ],
+  "handle": "CZ-NIC",
+  "links": [
+    {
+      "rel": "self",
+      "value": "https://rdap.nic.cz/entity/CZ-NIC",
+      "type": "application/rdap+json",
+      "href": "https://rdap.nic.cz/entity/CZ-NIC"
+    }
+  ],
+  "notices": [
+    {
+      "title": "Disclaimer",
+      "description": [
+        "(c) 2015 CZ.NIC, z.s.p.o.",
+        "Intended use of supplied data and information",
+        "Data contained in the domain name register, as well as information supplied through public information services of CZ.NIC association, are appointed only for purposes connected with Internet network administration and operation, or for the purpose of legal or other similar proceedings, in process as regards a matter connected particularly with holding and using a concrete domain name."
+      ]
+    }
+  ],
+  "port43": "whois.nic.cz",
+  "vcardArray": [
+    "vcard",
+    [
+      [
+        "version",
+        {},
+        "text",
+        "4.0"
+      ],
+      [
+        "fn",
+        {},
+        "text",
+        "CZ.NIC, z.s.p.o."
+      ],
+      [
+        "org",
+        {},
+        "text",
+        "CZ.NIC, z.s.p.o."
+      ],
+      [
+        "adr",
+        {
+          "type": ""
+        },
+        "text",
+        [
+          "",
+          "Milesovska 1136/5",
+          "",
+          "",
+          "Praha 3",
+          "",
+          "130 00",
+          "CZ"
+        ]
+      ]
+    ]
+  ],
+  "objectClassName": "entity",
+  "events": [
+    {
+      "eventAction": "registration",
+      "eventDate": "2008-10-17T10:08:21+00:00",
+      "eventActor": "REG-CZNIC"
+    },
+    {
+      "eventAction": "last changed",
+      "eventDate": "2018-05-15T19:32:00+00:00"
+    }
+  ],
+  "entities": [
+    {
+      "roles": [
+        "registrar"
+      ],
+      "handle": "REG-CZNIC",
+      "objectClassName": "entity"
+    }
+  ]
+}

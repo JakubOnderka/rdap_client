@@ -1,0 +1,67 @@
+{
+  "lang" : "en",
+  "notices" : [ {
+    "title" : "ABOUT",
+    "description" : [ "This is the AfriNIC RDAP server." ],
+    "links" : [ {
+      "value" : "https://rdap.afrinic.net/rdap/autnum/36864",
+      "rel" : "describedby",
+      "href" : "https://www.afrinic.net/support/whois-db/reference-manual",
+      "hreflang" : [ "en" ],
+      "type" : "text/html",
+      "title" : "AFRINIC Database Reference Manual",
+      "media" : "screen"
+    } ]
+  } ],
+  "handle" : "AS36864",
+  "status" : [ "active" ],
+  "port43" : "whois.afrinic.net",
+  "name" : "ORG-AMS4-AFRINIC",
+  "entities" : [ {
+    "lang" : "en",
+    "remarks" : [ {
+      "title" : "Remark",
+      "description" : [ "data has been transferred from RIPE Whois Database 20050221" ]
+    } ],
+    "handle" : "ES1575-AFRINIC",
+    "status" : [ "active" ],
+    "port43" : "whois.afrinic.net",
+    "vcardArray" : [ "vcard", [ [ "version", { }, "text", "4.0" ], [ "kind", { }, "text", "individual" ], [ "fn", { }, "text", "Eric Stevance" ], [ "tel", {
+      "type" : "work"
+    }, "uri", "tel:+223-20-28-00-00" ], [ "tel", {
+      "type" : "work"
+    }, "uri", "tel:+223-20-28-00-01" ], [ "email", {
+      "type" : "work"
+    }, "text", "stevance@afribonemali.net" ], [ "adr", {
+      "type" : "work"
+    }, "text", [ "AFRIBONE Mali SA BPE449 Bamako MALI", "Bamako", "Mali", "", "", "", "" ] ] ] ],
+    "roles" : [ "administrative", "technical" ],
+    "objectClassName" : "entity",
+    "rdapConformance" : [ ]
+  }, {
+    "lang" : "en",
+    "remarks" : [ {
+      "title" : "Remark",
+      "description" : [ "data has been transferred from RIPE Whois Database 20050221" ]
+    } ],
+    "handle" : "ORG-AMS4-AFRINIC",
+    "status" : [ "active" ],
+    "port43" : "whois.afrinic.net",
+    "vcardArray" : [ "vcard", [ [ "version", { }, "text", "4.0" ], [ "kind", { }, "text", "org" ], [ "fn", { }, "text", "AFRIBONE MALI SA" ], [ "tel", {
+      "type" : "work"
+    }, "uri", "tel:+223-20-28-00-00" ], [ "tel", {
+      "type" : "work"
+    }, "uri", "tel:+223-20-28-00-01" ], [ "email", {
+      "type" : "work"
+    }, "text", "stevance@afribonemali.net" ], [ "adr", {
+      "type" : "work"
+    }, "text", [ "AFRIBONE MALI SA", "BPE 449", "Bamako", "", "", "", "" ] ] ] ],
+    "roles" : [ "registrant" ],
+    "objectClassName" : "entity",
+    "rdapConformance" : [ ]
+  } ],
+  "startAutnum" : 36864,
+  "endAutnum" : 36864,
+  "objectClassName" : "autnum",
+  "rdapConformance" : [ "rdap_level_0" ]
+}

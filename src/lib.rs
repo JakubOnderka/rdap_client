@@ -85,8 +85,8 @@ impl SearchNameserver {
 #[derive(Debug)]
 pub enum ClientError {
     Reqwest(reqwest::Error),
-    Rdap(parser::Error),
     Server(reqwest::Response),
+    Rdap(reqwest::Url, parser::Error),
 }
 
 const RDAP_CONTENT_TYPES: [&str; 2] = ["application/rdap+json", "application/json"];
@@ -170,6 +170,7 @@ impl Client {
             response.json::<T>().await.map_err(ClientError::Reqwest)
         } else if is_rdap_response(&response) {
             Err(ClientError::Rdap(
+                response.url().clone(),
                 response
                     .json::<parser::Error>()
                     .await
@@ -190,15 +191,14 @@ impl Client {
     }
 
     async fn get<T: DeserializeOwned, I: IntoUrl>(&self, url: I) -> Result<T, ClientError> {
-        let response = self
-            .client
+        self.client
             .get(url)
             .headers(Self::construct_headers())
             .send()
             .await
-            .map_err(ClientError::Reqwest)?;
-
-        Self::handle_response(response).await
+            .map(Self::handle_response)
+            .map_err(ClientError::Reqwest)?
+            .await
     }
 
     async fn get_with_query<T: DeserializeOwned, I: IntoUrl, Q: Serialize>(
@@ -206,16 +206,15 @@ impl Client {
         url: I,
         query: &Q,
     ) -> Result<T, ClientError> {
-        let response = self
-            .client
+        self.client
             .get(url)
             .query(query)
             .headers(Self::construct_headers())
             .send()
             .await
-            .map_err(ClientError::Reqwest)?;
-
-        Self::handle_response(response).await
+            .map(Self::handle_response)
+            .map_err(ClientError::Reqwest)?
+            .await
     }
 
     /// Query given RDAP server for IPv4 or IPv6 address.

@@ -7,3 +7,9 @@ jobs:
   allow_failures:
     - rust: nightly
   fast_finish: true
+deploy:
+  provider: cargo
+  token:
+    secure: VMDvX66ohpA6LbY/5BWrREN7Jcgyp1hlXt8gGL4tjympxQLRljf/m61rLw1xbgD3E5f2J5j4Lb5gplOu2gNMe0i5Illijc3qdt5JNFB17uQ8yn2plkDI8hj/idK1VwNIzFpe2ACNJJVqIz84nLhlxKcZ72L3G5BRwT+dXARod/zuT/JaChbp4FYKeV/sxZ8fYOBRaVs1jQyRpYkSigb+qR19rh3yboQzZJBnQ5fhBoj+uL1Hy7Sc/uFr8nLsqeXCJBYrr3NabomXBabptIog/+TcmOR2Cc9Uq+7pT1D/9SjttdXPZ+umVYOhl4u+O1kD2gK+uO0VQ6ZdxnCaNdOCyhPj9YDvUUbGQ5ePRhLwGVD3jmxSekTIK6jVKK9MfGKLos8CBtwAHBhrS/v6dBiWhE1t3TBuK9VLXzV9n0wMo+MmODfpw/joFPtbNsLwSMuTEObPss3DGRYZtDZRWZT20FX6DBSSQi88AUvUX1tbbC2b7oMq6xDc3fbU3HahBCh3yCz7nCPaJc5+LmiBqTIAPLZawBZ2GjnPScuzvGAMzPBnDMM6f8jfXtjB76mQRZiCtc+XBTJQz1Fr5fa8WFdbYoWygcfskemnw8cKK/mb+3saBbjh6FMnUQv3kpqVraXHuOaQeYHC6Kn1HC6c5b23CO2mgu9yI6iMTaBR29BzWOg=
+  on:
+    tags: true

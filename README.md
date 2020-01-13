@@ -4,8 +4,7 @@ rdap_client
 Async and fast RDAP client and parser for Rust.
 
 [![Documentation](https://docs.rs/rdap_client/badge.svg)](https://docs.rs/rdap_client)
-[![Build Status](https://travis-ci.org/JakubOnderka/rdap_client.svg?branch=master)](https://travis-ci.org/JakubOnderka/rdap_client)
-[![Coverage Status](https://coveralls.io/repos/github/JakubOnderka/rdap_client/badge.svg?branch=master)](https://coveralls.io/github/JakubOnderka/rdap_client?branch=master)
+[![Build Status](https://travis-ci.com/JakubOnderka/rdap_client.svg?branch=master)](https://travis-ci.com/JakubOnderka/rdap_client)
 [![Crates.io](https://img.shields.io/crates/v/rdap_client.svg)](https://crates.io/crates/rdap_client)
 
 ## Usage

@@ -49,7 +49,7 @@ Rust version is 1.39.0.
 * [RFC 8521: Registration Data Access Protocol (RDAP) Object Tagging](https://tools.ietf.org/html/rfc8521)
 * [RDAP JSON Values](https://www.iana.org/assignments/rdap-json-values/rdap-json-values.xhtml)
 
-## Supported extensions
+## Supported extensions
 
 * [`fred`](https://fred.nic.cz/rdap-extension/)
 * [`cidr0`](https://bitbucket.org/nroecg/nro-rdap-cidr/src/master/nro-rdap-cidr.txt)

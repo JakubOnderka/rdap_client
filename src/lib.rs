@@ -223,7 +223,8 @@ impl Client {
         server: &str,
         ip: I,
     ) -> Result<parser::IpNetwork, ClientError> {
-        self.get(&format!("{}ip/{}", server, ip.into())).await
+        let url = format!("{}ip/{}", server, ip.into());
+        self.get(&url).await
     }
 
     /// Query given RDAP server for IP network.
@@ -233,18 +234,19 @@ impl Client {
         ip_network: I,
     ) -> Result<parser::IpNetwork, ClientError> {
         let ip_network = ip_network.into();
-        self.get(&format!(
+        let url = format!(
             "{}ip/{}/{}",
             server,
             ip_network.network_address(),
             ip_network.netmask()
-        ))
-        .await
+        );
+        self.get(&url).await
     }
 
     /// Query given RDAP server for AS number.
     pub async fn query_asn(&self, server: &str, asn: u32) -> Result<parser::AutNum, ClientError> {
-        self.get(&format!("{}autnum/{}", server, asn)).await
+        let url = format!("{}autnum/{}", server, asn);
+        self.get(&url).await
     }
 
     /// Query given RDAP server for nameserver handle.
@@ -253,8 +255,8 @@ impl Client {
         server: &str,
         nameserver: &str,
     ) -> Result<parser::Nameserver, ClientError> {
-        self.get(&format!("{}nameserver/{}", server, nameserver))
-            .await
+        let url = format!("{}nameserver/{}", server, nameserver);
+        self.get(&url).await
     }
 
     /// Query given RDAP server for domain by name.
@@ -263,7 +265,8 @@ impl Client {
         server: &str,
         domain: &str,
     ) -> Result<parser::Domain, ClientError> {
-        self.get(&format!("{}domain/{}", server, domain)).await
+        let url = format!("{}domain/{}", server, domain);
+        self.get(&url).await
     }
 
     pub async fn query_reverse_domain<I: Into<IpAddr>>(
@@ -305,7 +308,8 @@ impl Client {
         server: &str,
         entity: &str,
     ) -> Result<parser::Entity, ClientError> {
-        self.get(&format!("{}entity/{}", server, entity)).await
+        let url = format!("{}entity/{}", server, entity);
+        self.get(&url).await
     }
 
     /// Search given RDAP server for nameserver by name or IP address.
@@ -314,8 +318,9 @@ impl Client {
         server: &str,
         search_nameserver: SearchNameserver,
     ) -> Result<parser::NameserverSearchResults, ClientError> {
+        let url = &format!("{}nameservers", server);
         self.get_with_query(
-            &format!("{}nameservers", server),
+            url,
             &[(search_nameserver.key(), search_nameserver.value())],
         )
         .await
@@ -327,8 +332,9 @@ impl Client {
         server: &str,
         search_domain: SearchDomain,
     ) -> Result<parser::DomainSearchResults, ClientError> {
+        let url = format!("{}domains", server);
         self.get_with_query(
-            &format!("{}domains", server),
+            &url,
             &[(search_domain.key(), search_domain.value())],
         )
         .await
@@ -340,8 +346,9 @@ impl Client {
         server: &str,
         search_entity: SearchEntity,
     ) -> Result<parser::EntitySearchResults, ClientError> {
+        let url = format!("{}entities", server);
         self.get_with_query(
-            &format!("{}entities", server),
+            &url,
             &[(search_entity.key(), search_entity.value())],
         )
         .await
@@ -354,15 +361,16 @@ impl Client {
         server: &str,
         asn: u32,
     ) -> Result<parser::ArinOriginas0OriginautnumsResults, ClientError> {
-        self.get(&format!(
+        let url = format!(
             "{}arin_originas0_networksbyoriginas/{}",
             server, asn
-        ))
-        .await
+        );
+        self.get(&url).await
     }
 
     /// Help method.
     pub async fn help(&self, server: &str) -> Result<parser::Help, ClientError> {
-        self.get(&format!("{}help/", server)).await
+        let url = format!("{}help/", server);
+        self.get(&url).await
     }
 }

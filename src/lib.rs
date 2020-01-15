@@ -16,6 +16,7 @@ pub mod bootstrap;
 pub mod parser;
 
 /// Query value for search domain request.
+#[derive(Debug)]
 pub enum SearchDomain {
     Name(String),
     NsLdhName(String),
@@ -41,6 +42,7 @@ impl SearchDomain {
 }
 
 /// Query value for search entity request.
+#[derive(Debug)]
 pub enum SearchEntity {
     Fn(String),
     Handle(String),
@@ -63,6 +65,7 @@ impl SearchEntity {
 }
 
 /// Query value for search nameserver request.
+#[derive(Debug)]
 pub enum SearchNameserver {
     Name(String),
     Ip(IpAddr),

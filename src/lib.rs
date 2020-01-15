@@ -322,11 +322,8 @@ impl Client {
         search_nameserver: SearchNameserver,
     ) -> Result<parser::NameserverSearchResults, ClientError> {
         let url = &format!("{}nameservers", server);
-        self.get_with_query(
-            url,
-            &[(search_nameserver.key(), search_nameserver.value())],
-        )
-        .await
+        self.get_with_query(url, &[(search_nameserver.key(), search_nameserver.value())])
+            .await
     }
 
     /// Search given RDAP server for domain by name, NS LDH name or NS IP address.
@@ -336,11 +333,8 @@ impl Client {
         search_domain: SearchDomain,
     ) -> Result<parser::DomainSearchResults, ClientError> {
         let url = format!("{}domains", server);
-        self.get_with_query(
-            &url,
-            &[(search_domain.key(), search_domain.value())],
-        )
-        .await
+        self.get_with_query(&url, &[(search_domain.key(), search_domain.value())])
+            .await
     }
 
     /// Search given RDAP server for domain by FN or handle.
@@ -350,11 +344,8 @@ impl Client {
         search_entity: SearchEntity,
     ) -> Result<parser::EntitySearchResults, ClientError> {
         let url = format!("{}entities", server);
-        self.get_with_query(
-            &url,
-            &[(search_entity.key(), search_entity.value())],
-        )
-        .await
+        self.get_with_query(&url, &[(search_entity.key(), search_entity.value())])
+            .await
     }
 
     /// Method from [`arin_originas0` extension.](https://bitbucket.org/arin-specs/arin-rdap-originas/src/master/arin-rdap-originas.txt).
@@ -364,10 +355,7 @@ impl Client {
         server: &str,
         asn: u32,
     ) -> Result<parser::ArinOriginas0OriginautnumsResults, ClientError> {
-        let url = format!(
-            "{}arin_originas0_networksbyoriginas/{}",
-            server, asn
-        );
+        let url = format!("{}arin_originas0_networksbyoriginas/{}", server, asn);
         self.get(&url).await
     }
 

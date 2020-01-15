@@ -1,4 +1,7 @@
 //! Async and fast RDAP client and parser.
+
+#![warn(rust_2018_idioms)]
+
 use bootstrap::{Asn, Dns, Ip, ObjectTags};
 use ip_network::IpNetwork;
 use reqwest::header;

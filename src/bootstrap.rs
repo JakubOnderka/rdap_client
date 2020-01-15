@@ -87,7 +87,7 @@ impl<'de> Deserialize<'de> for ArcHashMap {
         impl<'de> Visitor<'de> for ArcHashMapVisitor {
             type Value = ArcHashMap;
 
-            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+            fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
                 formatter.write_str("a sequence")
             }
 
@@ -205,7 +205,7 @@ impl<'de> Deserialize<'de> for Ip {
         impl<'de> Visitor<'de> for IpVisitor {
             type Value = Ip;
 
-            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+            fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
                 formatter.write_str("a sequence")
             }
 
@@ -328,7 +328,7 @@ impl<'de> Deserialize<'de> for Asn {
         impl<'de> Visitor<'de> for AsnVisitor {
             type Value = Asn;
 
-            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+            fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
                 formatter.write_str("a sequence")
             }
 

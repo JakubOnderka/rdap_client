@@ -106,7 +106,7 @@ impl<'de> Deserialize<'de> for CountryCode {
         impl<'de> Visitor<'de> for CountryCodeVisitor {
             type Value = CountryCode;
 
-            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+            fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
                 write!(formatter, "expecting a two letters country code")
             }
 
@@ -275,7 +275,7 @@ impl<'de> Deserialize<'de> for JCardItem {
         impl<'de> Visitor<'de> for JCardItemVisitor {
             type Value = JCardItem;
 
-            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+            fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
                 formatter.write_str("a sequence")
             }
 
@@ -880,7 +880,7 @@ where
     impl<'de> Visitor<'de> for ErrorCodeVisitor {
         type Value = u16;
 
-        fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
             write!(formatter, "expecting an error code as string or number")
         }
 

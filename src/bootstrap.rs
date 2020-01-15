@@ -9,8 +9,8 @@ use std::convert::TryFrom;
 use std::fmt;
 use std::net::IpAddr;
 use std::ops::RangeInclusive;
-use std::rc::Rc;
 use std::str::FromStr;
+use std::sync::Arc;
 
 #[derive(Serialize, Deserialize)]
 pub struct Bootstrap {
@@ -21,9 +21,9 @@ pub struct Bootstrap {
 }
 
 #[derive(Debug, Default)]
-struct RcHashMap(HashMap<String, Rc<Vec<String>>>);
+struct ArcHashMap(HashMap<String, Arc<Vec<String>>>);
 
-impl RcHashMap {
+impl ArcHashMap {
     pub fn new() -> Self {
         Default::default()
     }
@@ -33,9 +33,9 @@ impl RcHashMap {
     }
 
     pub fn insert(&mut self, servers: Vec<String>, keys: Vec<String>) {
-        let servers = Rc::new(servers);
+        let servers = Arc::new(servers);
         for key in keys {
-            self.0.insert(key, Rc::clone(&servers));
+            self.0.insert(key, Arc::clone(&servers));
         }
     }
 
@@ -48,7 +48,7 @@ impl RcHashMap {
     }
 }
 
-impl<I: BootstrapService> From<&parser::Bootstrap<I>> for RcHashMap {
+impl<I: BootstrapService> From<&parser::Bootstrap<I>> for ArcHashMap {
     fn from(bootstrap: &parser::Bootstrap<I>) -> Self {
         let mut hashmap = Self::new();
         for service in &bootstrap.services {
@@ -58,14 +58,14 @@ impl<I: BootstrapService> From<&parser::Bootstrap<I>> for RcHashMap {
     }
 }
 
-impl Serialize for RcHashMap {
+impl Serialize for ArcHashMap {
     fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
-        let mut hashmap: HashMap<Rc<Vec<String>>, Vec<String>> = HashMap::new();
+        let mut hashmap: HashMap<Arc<Vec<String>>, Vec<String>> = HashMap::new();
         for (data, servers) in self.0.iter() {
             if let Some(k) = hashmap.get_mut(servers) {
                 k.push(data.to_owned());
             } else {
-                hashmap.insert(Rc::clone(servers), vec![data.to_owned()]);
+                hashmap.insert(Arc::clone(servers), vec![data.to_owned()]);
             }
         }
 
@@ -77,15 +77,15 @@ impl Serialize for RcHashMap {
     }
 }
 
-impl<'de> Deserialize<'de> for RcHashMap {
+impl<'de> Deserialize<'de> for ArcHashMap {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: Deserializer<'de>,
     {
-        struct RcHashMapVisitor;
+        struct ArcHashMapVisitor;
 
-        impl<'de> Visitor<'de> for RcHashMapVisitor {
-            type Value = RcHashMap;
+        impl<'de> Visitor<'de> for ArcHashMapVisitor {
+            type Value = ArcHashMap;
 
             fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
                 formatter.write_str("a sequence")
@@ -95,7 +95,7 @@ impl<'de> Deserialize<'de> for RcHashMap {
             where
                 A: SeqAccess<'de>,
             {
-                let mut hashmap = RcHashMap::with_capacity(seq.size_hint().unwrap_or(0));
+                let mut hashmap = ArcHashMap::with_capacity(seq.size_hint().unwrap_or(0));
                 while let Some((keys, servers)) =
                     seq.next_element::<(Vec<String>, Vec<String>)>()?
                 {
@@ -105,12 +105,12 @@ impl<'de> Deserialize<'de> for RcHashMap {
             }
         }
 
-        deserializer.deserialize_seq(RcHashMapVisitor)
+        deserializer.deserialize_seq(ArcHashMapVisitor)
     }
 }
 
 #[derive(Serialize, Deserialize, Debug, Default)]
-pub struct Dns(RcHashMap);
+pub struct Dns(ArcHashMap);
 
 impl Dns {
     pub fn new() -> Self {
@@ -140,12 +140,12 @@ impl Dns {
 
 impl From<&parser::BootstrapRfc7484> for Dns {
     fn from(bootstrap: &parser::BootstrapRfc7484) -> Self {
-        Self(RcHashMap::from(bootstrap))
+        Self(ArcHashMap::from(bootstrap))
     }
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct ObjectTags(RcHashMap);
+pub struct ObjectTags(ArcHashMap);
 
 impl ObjectTags {
     pub fn find(&self, name: &str) -> Option<&Vec<String>> {
@@ -160,11 +160,11 @@ impl ObjectTags {
 
 impl From<&parser::BootstrapRfc8521> for ObjectTags {
     fn from(bootstrap: &parser::BootstrapRfc8521) -> Self {
-        Self(RcHashMap::from(bootstrap))
+        Self(ArcHashMap::from(bootstrap))
     }
 }
 
-pub struct Ip(IpNetworkTable<Rc<Vec<String>>>);
+pub struct Ip(IpNetworkTable<Arc<Vec<String>>>);
 
 impl Ip {
     pub fn find<I: Into<IpAddr>>(&self, ip: I) -> Option<&Vec<String>> {
@@ -178,12 +178,12 @@ impl Ip {
 
 impl Serialize for Ip {
     fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
-        let mut hashmap: HashMap<Rc<Vec<String>>, Vec<IpNetwork>> = HashMap::new();
+        let mut hashmap: HashMap<Arc<Vec<String>>, Vec<IpNetwork>> = HashMap::new();
         for (network, servers) in self.0.iter() {
             if let Some(k) = hashmap.get_mut(servers) {
                 k.push(network);
             } else {
-                hashmap.insert(Rc::clone(servers), vec![network]);
+                hashmap.insert(Arc::clone(servers), vec![network]);
             }
         }
 
@@ -217,9 +217,9 @@ impl<'de> Deserialize<'de> for Ip {
                 while let Some((networks, servers)) =
                     seq.next_element::<(Vec<IpNetwork>, Vec<String>)>()?
                 {
-                    let servers = Rc::new(servers);
+                    let servers = Arc::new(servers);
                     for network in networks {
-                        ip_table.insert(network, Rc::clone(&servers));
+                        ip_table.insert(network, Arc::clone(&servers));
                     }
                 }
                 Ok(Ip(ip_table))
@@ -240,9 +240,9 @@ impl TryFrom<(&parser::BootstrapRfc7484, &parser::BootstrapRfc7484)> for Ip {
 
         for bootstrap in &[bootstraps.0, bootstraps.1] {
             for service in &bootstrap.services {
-                let servers = Rc::new(service.servers().to_vec());
+                let servers = Arc::new(service.servers().to_vec());
                 for key in service.keys() {
-                    table.insert(IpNetwork::from_str(key)?, Rc::clone(&servers));
+                    table.insert(IpNetwork::from_str(key)?, Arc::clone(&servers));
                 }
             }
         }
@@ -252,7 +252,7 @@ impl TryFrom<(&parser::BootstrapRfc7484, &parser::BootstrapRfc7484)> for Ip {
 }
 
 #[derive(Default)]
-pub struct Asn(Vec<(RangeInclusive<u32>, Rc<Vec<String>>)>);
+pub struct Asn(Vec<(RangeInclusive<u32>, Arc<Vec<String>>)>);
 
 impl Asn {
     pub fn new() -> Self {
@@ -277,14 +277,14 @@ impl Asn {
     }
 
     pub fn insert(&mut self, servers: Vec<String>, ranges: Vec<RangeInclusive<u32>>) {
-        let servers = Rc::new(servers);
+        let servers = Arc::new(servers);
         for range in ranges {
             self.insert_one(range, &servers);
         }
     }
 
-    pub fn insert_one(&mut self, range: RangeInclusive<u32>, servers: &Rc<Vec<String>>) {
-        self.0.push((range, Rc::clone(&servers)));
+    pub fn insert_one(&mut self, range: RangeInclusive<u32>, servers: &Arc<Vec<String>>) {
+        self.0.push((range, Arc::clone(&servers)));
     }
 
     pub fn sort(&mut self) {
@@ -298,13 +298,13 @@ impl Asn {
 
 impl Serialize for Asn {
     fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
-        let mut hashmap: HashMap<Rc<Vec<String>>, Vec<(u32, u32)>> = HashMap::new();
+        let mut hashmap: HashMap<Arc<Vec<String>>, Vec<(u32, u32)>> = HashMap::new();
         for (range, servers) in self.0.iter() {
             let range = (*range.start(), *range.end());
             if let Some(k) = hashmap.get_mut(servers) {
                 k.push(range);
             } else {
-                hashmap.insert(Rc::clone(servers), vec![range]);
+                hashmap.insert(Arc::clone(servers), vec![range]);
             }
         }
 
@@ -363,7 +363,7 @@ impl TryFrom<&parser::BootstrapRfc7484> for Asn {
         let mut asn = Asn::new();
 
         for service in &bootstrap.services {
-            let servers = Rc::new(service.servers().to_vec());
+            let servers = Arc::new(service.servers().to_vec());
             for key in service.keys() {
                 let range = if key.contains('-') {
                     let parts: Vec<_> = key.splitn(2, '-').collect();
@@ -532,5 +532,11 @@ mod tests {
         let bootstrap_de = serde_json::from_str(&ser_json).unwrap();
 
         validate_bootstrap(&bootstrap_de);
+    }
+
+    #[test]
+    fn test_send_sync() {
+        fn is_send_sync<T: Send + Sync>() {}
+        is_send_sync::<Bootstrap>(); // compiles only if true
     }
 }

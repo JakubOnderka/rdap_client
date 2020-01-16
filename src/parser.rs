@@ -23,7 +23,7 @@ where
 }
 
 /// Because not all RDAP servers are RFC 7483 complaint (they use datetime in formats that are
-/// incomplatible with RFC 3339), this method can parse all kinds of different format used in domains
+/// incompatible with RFC 3339), this method can parse all kinds of different format used in domains
 /// RDAP servers:
 /// - RFC 3339 format
 /// - %Y-%m-%dT%H:%M:%S

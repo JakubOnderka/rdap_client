@@ -17,6 +17,7 @@ exclude = [".travis.yml", "test_data/*"]
 
 [badges]
 travis-ci = { repository = "JakubOnderka/rdap_client" }
+maintenance = { status = "actively-developed" }
 
 [dependencies]
 reqwest = {  version = "0.10.0", features = ["json"] }

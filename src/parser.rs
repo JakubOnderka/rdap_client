@@ -1236,7 +1236,7 @@ mod tests {
     }
 
     #[test]
-    fn test_parse_arin_originas0_networkSearchResults() {
+    fn test_parse_arin_originas0_network_search_results() {
         let parsed: ArinOriginas0OriginautnumsResults =
             deserialize_and_serialize("arin_originas0_networkSearchResults.json");
         assert!(parsed.results.len() > 0);

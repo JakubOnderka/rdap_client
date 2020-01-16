@@ -798,10 +798,12 @@ pub struct FredNsset {
     pub nameservers: Vec<Nameserver>,
 }
 
+
+/// https://tools.ietf.org/html/rfc7483#section-5.3
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Domain {
-    pub handle: String,
+    pub handle: Option<String>,
     pub entities: Vec<Entity>,
     pub links: Option<Vec<Link>>,
     pub variants: Option<Vec<Variant>>,
@@ -1133,25 +1135,25 @@ mod tests {
     #[test]
     fn test_parse_domain_23() {
         let parsed: Domain = deserialize_and_serialize("domain/domain_23.json");
-        assert_eq!("XXXX", parsed.handle);
+        assert_eq!("XXXX", parsed.handle.unwrap());
     }
 
     #[test]
     fn test_parse_domain_24() {
         let parsed: Domain = deserialize_and_serialize("domain/domain_24.json");
-        assert_eq!("XXXX", parsed.handle);
+        assert_eq!("XXXX", parsed.handle.unwrap());
     }
 
     #[test]
     fn test_parse_domain_fred() {
         let parsed: Domain = deserialize_and_serialize("domain/domain_fred.json");
-        assert_eq!("nic.cz", parsed.handle);
+        assert_eq!("nic.cz", parsed.handle.unwrap());
     }
 
     #[test]
     fn test_parse_domain_ripe_reverse() {
         let parsed: Domain = deserialize_and_serialize("domain/domain_ripe_reverse.json");
-        assert_eq!("6.0.193.in-addr.arpa", parsed.handle);
+        assert_eq!("6.0.193.in-addr.arpa", parsed.handle.unwrap());
     }
 
     #[test]

@@ -2,7 +2,6 @@
 
 #![warn(rust_2018_idioms)]
 
-use bootstrap::{Asn, Dns, Ip, ObjectTags};
 use ip_network::IpNetwork;
 use reqwest::header;
 use reqwest::IntoUrl;
@@ -144,28 +143,53 @@ impl Client {
         self.client.get(url).send().await?.json().await
     }
 
+    pub async fn fetch_bootstrap_asn(&self) -> Result<bootstrap::Asn, Box<dyn std::error::Error>> {
+        let bootstrap = self
+            .get_boostrap("https://data.iana.org/rdap/asn.json")
+            .await?;
+        Ok(bootstrap::Asn::try_from(&bootstrap)?)
+    }
+
+    pub async fn fetch_bootstrap_dns(&self) -> Result<bootstrap::Dns, Box<dyn std::error::Error>> {
+        let bootstrap = self
+            .get_boostrap("https://data.iana.org/rdap/dns.json")
+            .await?;
+        Ok(bootstrap::Dns::from(&bootstrap))
+    }
+
+    pub async fn fetch_bootstrap_ip(&self) -> Result<bootstrap::Ip, Box<dyn std::error::Error>> {
+        let (parsed_ipv4, parsed_ipv6) = futures::join!(
+            self.get_boostrap("https://data.iana.org/rdap/ipv4.json"),
+            self.get_boostrap("https://data.iana.org/rdap/ipv6.json"),
+        );
+        Ok(bootstrap::Ip::try_from((&parsed_ipv4?, &parsed_ipv6?))?)
+    }
+
+    pub async fn fetch_bootstrap_object_tags(
+        &self,
+    ) -> Result<bootstrap::ObjectTags, Box<dyn std::error::Error>> {
+        let bootstrap = self
+            .get_boostrap("https://data.iana.org/rdap/object-tags.json")
+            .await?;
+        Ok(bootstrap::ObjectTags::from(&bootstrap))
+    }
+
     /// Fetch boostrap from IANA for ASN, IPv4 and IPV6, domains (DNS) and object tags.
     pub async fn fetch_bootstrap(
         &self,
     ) -> Result<bootstrap::Bootstrap, Box<dyn std::error::Error>> {
-        let (parsed_asn, parsed_dns, parsed_ipv4, parsed_ipv6, parsed_object_tags) = futures::join!(
-            self.get_boostrap("https://data.iana.org/rdap/asn.json"),
-            self.get_boostrap("https://data.iana.org/rdap/dns.json"),
-            self.get_boostrap("https://data.iana.org/rdap/ipv4.json"),
-            self.get_boostrap("https://data.iana.org/rdap/ipv6.json"),
-            self.get_boostrap("https://data.iana.org/rdap/object-tags.json"),
+        let (asn, dns, ip, object_tags) = futures::join!(
+            self.fetch_bootstrap_asn(),
+            self.fetch_bootstrap_dns(),
+            self.fetch_bootstrap_ip(),
+            self.fetch_bootstrap_object_tags(),
         );
 
-        let asn = Asn::try_from(&parsed_asn?)?;
-        let dns = Dns::from(&parsed_dns?);
-        let ip = Ip::try_from((&parsed_ipv4?, &parsed_ipv6?))?;
-        let object_tags = ObjectTags::try_from(&parsed_object_tags?)?;
-
         Ok(bootstrap::Bootstrap {
-            ip,
-            dns,
-            asn,
-            object_tags,
+            ip: ip?,
+            dns: dns?,
+            asn: asn?,
+            object_tags: object_tags?,
         })
     }
 
@@ -366,5 +390,16 @@ impl Client {
     pub async fn help(&self, server: &str) -> Result<parser::Help, ClientError> {
         let url = format!("{}help/", server);
         self.get(&url).await
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::Client;
+
+    #[test]
+    fn test_send_sync() {
+        fn is_send_sync<T: Send + Sync>() {}
+        is_send_sync::<Client>(); // compiles only if true
     }
 }

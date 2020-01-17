@@ -12,6 +12,26 @@ use std::ops::RangeInclusive;
 use std::str::FromStr;
 use std::sync::Arc;
 
+fn hashmap_serializer<'a, S: Serializer, V: Serialize>(
+    serializer: S,
+    input: impl Iterator<Item = (V, &'a Arc<Vec<String>>)>,
+) -> Result<S::Ok, S::Error> {
+    let mut hashmap: HashMap<Arc<Vec<String>>, Vec<V>> = HashMap::new();
+    for (value, servers) in input {
+        if let Some(k) = hashmap.get_mut(servers) {
+            k.push(value);
+        } else {
+            hashmap.insert(Arc::clone(servers), vec![value]);
+        }
+    }
+
+    let mut seq = serializer.serialize_seq(Some(hashmap.len()))?;
+    for (k, v) in hashmap {
+        seq.serialize_element(&(v, k.as_ref()))?;
+    }
+    seq.end()
+}
+
 #[derive(Serialize, Deserialize)]
 pub struct Bootstrap {
     pub dns: Dns,
@@ -60,20 +80,7 @@ impl<I: BootstrapService> From<&parser::Bootstrap<I>> for ArcHashMap {
 
 impl Serialize for ArcHashMap {
     fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
-        let mut hashmap: HashMap<Arc<Vec<String>>, Vec<String>> = HashMap::new();
-        for (data, servers) in self.0.iter() {
-            if let Some(k) = hashmap.get_mut(servers) {
-                k.push(data.to_owned());
-            } else {
-                hashmap.insert(Arc::clone(servers), vec![data.to_owned()]);
-            }
-        }
-
-        let mut seq = serializer.serialize_seq(Some(hashmap.len()))?;
-        for (k, v) in hashmap {
-            seq.serialize_element(&(&v, k.as_ref()))?;
-        }
-        seq.end()
+        hashmap_serializer(serializer, self.0.iter())
     }
 }
 
@@ -178,20 +185,7 @@ impl Ip {
 
 impl Serialize for Ip {
     fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
-        let mut hashmap: HashMap<Arc<Vec<String>>, Vec<IpNetwork>> = HashMap::new();
-        for (network, servers) in self.0.iter() {
-            if let Some(k) = hashmap.get_mut(servers) {
-                k.push(network);
-            } else {
-                hashmap.insert(Arc::clone(servers), vec![network]);
-            }
-        }
-
-        let mut seq = serializer.serialize_seq(Some(hashmap.len()))?;
-        for (k, v) in hashmap {
-            seq.serialize_element(&(&v, k.as_ref()))?;
-        }
-        seq.end()
+        hashmap_serializer(serializer, self.0.iter())
     }
 }
 
@@ -298,21 +292,11 @@ impl Asn {
 
 impl Serialize for Asn {
     fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
-        let mut hashmap: HashMap<Arc<Vec<String>>, Vec<(u32, u32)>> = HashMap::new();
-        for (range, servers) in self.0.iter() {
+        let i = self.0.iter().map(|(range, arc)| {
             let range = (*range.start(), *range.end());
-            if let Some(k) = hashmap.get_mut(servers) {
-                k.push(range);
-            } else {
-                hashmap.insert(Arc::clone(servers), vec![range]);
-            }
-        }
-
-        let mut seq = serializer.serialize_seq(Some(hashmap.len()))?;
-        for (k, v) in hashmap {
-            seq.serialize_element(&(&v, k.as_ref()))?;
-        }
-        seq.end()
+            (range, arc)
+        });
+        hashmap_serializer(serializer, i)
     }
 }
 

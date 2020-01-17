@@ -175,7 +175,7 @@ impl Client {
         Ok(bootstrap::ObjectTags::from(&bootstrap))
     }
 
-    /// Fetch boostrap from IANA for ASN, IPv4 and IPV6, domains (DNS) and object tags.
+    /// Fetch bootstrap from IANA for ASN, IPv4 and IPV6, domains (DNS) and object tags.
     pub async fn fetch_bootstrap(
         &self,
     ) -> Result<bootstrap::Bootstrap, Box<dyn std::error::Error>> {

@@ -3,8 +3,7 @@
 #![warn(rust_2018_idioms)]
 
 use ip_network::IpNetwork;
-use reqwest::header;
-use reqwest::IntoUrl;
+use reqwest::{header, IntoUrl};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 use std::convert::TryFrom;
@@ -89,10 +88,14 @@ impl SearchNameserver {
 /// Error enum returned by Client requests.
 #[derive(Debug)]
 pub enum ClientError {
+    /// Error caused by reqwest client (for example timeout, not exists dns record etc.)
     Reqwest(reqwest::Error),
+    /// Server returned error response (like status code 404), but not in RDAP format.
     Server(reqwest::Response),
+    /// Error during converting JSON to RDAP structures.
     JsonDecode(serde_json::error::Error),
-    Rdap(reqwest::Url, parser::Error),
+    /// Server error response as RDAP error message.
+    Rdap(Box<reqwest::Url>, parser::Error),
 }
 
 const RDAP_CONTENT_TYPES: [&str; 2] = ["application/rdap+json", "application/json"];
@@ -208,7 +211,7 @@ impl Client {
             Self::parse_response(response).await
         } else if is_rdap_response(&response) {
             Err(ClientError::Rdap(
-                response.url().clone(),
+                Box::new(response.url().clone()),
                 Self::parse_response(response).await?,
             ))
         } else {
@@ -220,7 +223,8 @@ impl Client {
         let mut headers = header::HeaderMap::new();
         headers.insert(
             header::ACCEPT,
-            header::HeaderValue::from_str(&RDAP_CONTENT_TYPES.join(", ")).unwrap(),
+            header::HeaderValue::from_str(&RDAP_CONTENT_TYPES.join(", "))
+                .expect("error during converting header value"), // Should never fail
         );
         headers
     }

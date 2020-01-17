@@ -91,6 +91,7 @@ impl SearchNameserver {
 pub enum ClientError {
     Reqwest(reqwest::Error),
     Server(reqwest::Response),
+    JsonDecode(serde_json::error::Error),
     Rdap(reqwest::Url, parser::Error),
 }
 
@@ -193,18 +194,22 @@ impl Client {
         })
     }
 
+    async fn parse_response<T: DeserializeOwned>(
+        response: reqwest::Response,
+    ) -> Result<T, ClientError> {
+        let full = response.bytes().await.map_err(ClientError::Reqwest)?;
+        serde_json::from_slice(&full).map_err(ClientError::JsonDecode)
+    }
+
     async fn handle_response<T: DeserializeOwned>(
         response: reqwest::Response,
     ) -> Result<T, ClientError> {
         if response.status() == reqwest::StatusCode::OK {
-            response.json::<T>().await.map_err(ClientError::Reqwest)
+            Self::parse_response(response).await
         } else if is_rdap_response(&response) {
             Err(ClientError::Rdap(
                 response.url().clone(),
-                response
-                    .json::<parser::Error>()
-                    .await
-                    .map_err(ClientError::Reqwest)?,
+                Self::parse_response(response).await?,
             ))
         } else {
             Err(ClientError::Server(response))

@@ -21,6 +21,7 @@ maintenance = { status = "actively-developed" }
 
 [dependencies]
 reqwest = {  version = "0.10.0", features = ["json"] }
+bytes = "0.5.3"
 futures = "0.3.1"
 ip_network = { version = "0.3.4", features = ["serde"] }
 ip_network_table = "0.1.1"

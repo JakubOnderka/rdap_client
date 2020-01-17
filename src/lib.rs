@@ -2,6 +2,7 @@
 
 #![warn(rust_2018_idioms)]
 
+use bytes::BytesMut;
 use ip_network::IpNetwork;
 use reqwest::{header, IntoUrl};
 use serde::de::DeserializeOwned;
@@ -93,9 +94,15 @@ pub enum ClientError {
     /// Server returned error response (like status code 404), but not in RDAP format.
     Server(reqwest::Response),
     /// Error during converting JSON to RDAP structures.
-    JsonDecode(serde_json::error::Error),
+    JsonDecode(Box<reqwest::Response>, serde_json::error::Error),
     /// Server error response as RDAP error message.
     Rdap(Box<reqwest::Url>, parser::Error),
+}
+
+impl From<reqwest::Error> for ClientError {
+    fn from(error: reqwest::Error) -> Self {
+        ClientError::Reqwest(error)
+    }
 }
 
 const RDAP_CONTENT_TYPES: [&str; 2] = ["application/rdap+json", "application/json"];
@@ -198,10 +205,20 @@ impl Client {
     }
 
     async fn parse_response<T: DeserializeOwned>(
-        response: reqwest::Response,
+        mut response: reqwest::Response,
     ) -> Result<T, ClientError> {
-        let full = response.bytes().await.map_err(ClientError::Reqwest)?;
-        serde_json::from_slice(&full).map_err(ClientError::JsonDecode)
+        let mut buf = BytesMut::new();
+        while let Some(chunk) = response.chunk().await? {
+            buf.extend(chunk);
+        }
+
+        // Server returns empty response, doesnt make sense to try parse as JSON.
+        if buf.is_empty() {
+            return Err(ClientError::Server(response));
+        }
+
+        serde_json::from_slice(&buf.freeze())
+            .map_err(|e| ClientError::JsonDecode(Box::new(response), e))
     }
 
     async fn handle_response<T: DeserializeOwned>(
@@ -235,8 +252,7 @@ impl Client {
             .headers(Self::construct_headers())
             .send()
             .await
-            .map(Self::handle_response)
-            .map_err(ClientError::Reqwest)?
+            .map(Self::handle_response)?
             .await
     }
 
@@ -251,8 +267,7 @@ impl Client {
             .headers(Self::construct_headers())
             .send()
             .await
-            .map(Self::handle_response)
-            .map_err(ClientError::Reqwest)?
+            .map(Self::handle_response)?
             .await
     }
 

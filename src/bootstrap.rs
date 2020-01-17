@@ -16,18 +16,19 @@ fn hashmap_serializer<'a, S: Serializer, V: Serialize>(
     serializer: S,
     input: impl Iterator<Item = (V, &'a Arc<Vec<String>>)>,
 ) -> Result<S::Ok, S::Error> {
-    let mut hashmap: HashMap<Arc<Vec<String>>, Vec<V>> = HashMap::new();
+    let mut hashmap: HashMap<_, Vec<V>> = HashMap::new();
     for (value, servers) in input {
+        let servers = servers.as_ref();
         if let Some(k) = hashmap.get_mut(servers) {
             k.push(value);
         } else {
-            hashmap.insert(Arc::clone(servers), vec![value]);
+            hashmap.insert(servers, vec![value]);
         }
     }
 
     let mut seq = serializer.serialize_seq(Some(hashmap.len()))?;
     for (k, v) in hashmap {
-        seq.serialize_element(&(v, k.as_ref()))?;
+        seq.serialize_element(&(v, k))?;
     }
     seq.end()
 }

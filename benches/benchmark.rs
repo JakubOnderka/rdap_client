@@ -53,6 +53,16 @@ fn criterion_benchmark(c: &mut Criterion) {
             serde_json::to_string(&country_code).unwrap();
         });
     });
+
+    c.bench_function("serialize_bootstrap_dns", |b| {
+       let mut dns = rdap_client::bootstrap::Dns::new();
+        dns.insert(vec!["https://rdap-server1.example".into()], vec!["cz".into(), "sk".into(), "br".into(), "kr".into()]);
+        dns.insert(vec!["https://rdap-server2.example".into()], vec!["fr".into(), "ak".into(), "rt".into(), "ayay".into()]);
+        dns.insert(vec!["https://rdap-server3.example".into()], vec!["ee".into(), "xn--ngbrx".into(), "allstate".into(), "boehringer".into()]);
+        b.iter(|| {
+            serde_json::to_string(&dns).unwrap();
+        });
+    });
 }
 
 criterion_group!(benches, criterion_benchmark);

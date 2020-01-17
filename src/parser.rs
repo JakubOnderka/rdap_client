@@ -40,10 +40,7 @@ where
             if string.contains('T') {
                 Utc.datetime_from_str(&string, "%Y-%m-%dT%H:%M:%S")
                     .map(|d| d.with_timezone(&Utc.fix()))
-                    .or_else(|_| {
-                        DateTime::parse_from_str(&string, "%Y-%m-%dT%H:%M:%SZ%z")
-                        // for
-                    })
+                    .or_else(|_| DateTime::parse_from_str(&string, "%Y-%m-%dT%H:%M:%SZ%z"))
             } else {
                 Utc.datetime_from_str(&string, "%Y-%m-%d %H:%M:%S")
                     .map(|d| d.with_timezone(&Utc.fix())) // for `xn--rhqv96g` domain

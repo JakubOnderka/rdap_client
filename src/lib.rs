@@ -207,7 +207,13 @@ impl Client {
     async fn parse_response<T: DeserializeOwned>(
         mut response: reqwest::Response,
     ) -> Result<T, ClientError> {
-        let mut buf = BytesMut::new();
+        // Preallocate buffer if content length is known, but 8 KB maximum.
+        let mut buf = if let Some(content_length) = response.content_length() {
+            BytesMut::with_capacity(8192.min(content_length) as usize)
+        } else {
+            BytesMut::new()
+        };
+
         while let Some(chunk) = response.chunk().await? {
             buf.extend(chunk);
         }

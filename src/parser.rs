@@ -798,7 +798,6 @@ pub struct FredNsset {
     pub nameservers: Vec<Nameserver>,
 }
 
-
 /// https://tools.ietf.org/html/rfc7483#section-5.3
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]

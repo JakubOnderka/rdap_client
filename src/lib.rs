@@ -355,7 +355,7 @@ impl Client {
                     ret.iter()
                         .map(|n| n.to_string())
                         .collect::<Vec<_>>()
-                        .join(&".")
+                        .join(".")
                 )
             }
         };

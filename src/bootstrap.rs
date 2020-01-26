@@ -279,7 +279,7 @@ impl Asn {
     }
 
     pub fn insert_one(&mut self, range: RangeInclusive<u32>, servers: &Arc<Vec<String>>) {
-        self.0.push((range, Arc::clone(&servers)));
+        self.0.push((range, Arc::clone(servers)));
     }
 
     pub fn sort(&mut self) {

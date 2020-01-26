@@ -92,7 +92,7 @@ pub enum ClientError {
     /// Error caused by reqwest client (for example timeout, not exists dns record etc.)
     Reqwest(reqwest::Error),
     /// Server returned error response (like status code 404), but not in RDAP format.
-    Server(reqwest::Response),
+    Server(Box<reqwest::Response>),
     /// Error during converting JSON to RDAP structures.
     JsonDecode(Box<reqwest::Response>, serde_json::error::Error),
     /// Server error response as RDAP error message.
@@ -220,7 +220,7 @@ impl Client {
 
         // Server returns empty response, doesnt make sense to try parse as JSON.
         if buf.is_empty() {
-            return Err(ClientError::Server(response));
+            return Err(ClientError::Server(Box::new(response)));
         }
 
         serde_json::from_slice(&buf.freeze())
@@ -238,7 +238,7 @@ impl Client {
                 Self::parse_response(response).await?,
             ))
         } else {
-            Err(ClientError::Server(response))
+            Err(ClientError::Server(Box::new(response)))
         }
     }
 

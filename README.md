@@ -13,7 +13,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-rdap_client = "0.1"
+rdap_client = "0.2"
 tokio = "0.2"
 ```
 
@@ -64,4 +64,3 @@ free to open issue with URI that `rdap_client` could not parse.
 
 * [RIPE NCC RDAP Implementation](https://github.com/RIPE-NCC/whois/blob/master/README.RDAP.md)
 * [ARIN RDAP manual](https://www.arin.net/resources/registry/whois/rdap/)
-

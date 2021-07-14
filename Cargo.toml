@@ -1,7 +1,7 @@
 [package]
 name = "rdap_client"
 version = "0.1.0"
-authors = ["Jakub Onderka <j.onderka@nukib.cz>"]
+authors = ["Jakub Onderka <jakub.onderka@gmail.cz>"]
 license = "BSD-2-Clause"
 keywords = ["rdap", "whois"]
 categories = ["network-programming", "parsing", "data-structures"]
@@ -16,15 +16,14 @@ edition = "2018"
 exclude = [".travis.yml", "test_data/*"]
 
 [badges]
-travis-ci = { repository = "JakubOnderka/rdap_client" }
 maintenance = { status = "actively-developed" }
 
 [dependencies]
-reqwest = {  version = "0.10.0", features = ["json", "gzip"] }
-bytes = "0.5.3"
+reqwest = { version = "0.11.0", features = ["json", "gzip"] }
+bytes = "1.0"
 futures = "0.3.1"
-ip_network = { version = "0.3.4", features = ["serde"] }
-ip_network_table = "0.1.1"
+ip_network = { version = "0.4.0", features = ["serde"] }
+ip_network_table = "0.2.0"
 chrono = { version = "0.4.10", features = ["serde"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"

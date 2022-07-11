@@ -2,6 +2,18 @@
 name = "rdap_types"
 version = "0.1.0"
 edition = "2021"
+authors = ["Jakub Onderka <jakub.onderka@gmail.cz>"]
+license = "BSD-2-Clause"
+keywords = ["rdap", "whois"]
+categories = ["network-programming", "parsing", "data-structures"]
+readme = "../README.md"
+repository = "https://github.com/JakubOnderka/rdap_client"
+homepage = "https://github.com/JakubOnderka/rdap_client"
+documentation = "https://docs.rs/rdap_client"
+description = """
+Async and fast RDAP client and parser.
+"""
+exclude = [".travis.yml", "test_data/*"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

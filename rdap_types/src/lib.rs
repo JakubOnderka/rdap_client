@@ -377,9 +377,8 @@ pub struct Entity {
 }
 
 /// https://tools.ietf.org/html/rfc7483#section-10.2.2
-#[skip_serializing_none]
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
-#[serde(rename_all = "lowercase")]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+#[serde(rename_all = "lowercase", from = "String")]
 pub enum Status {
     Validated,
     #[serde(rename = "renew prohibited")]
@@ -441,9 +440,56 @@ pub enum Status {
     ServerHold,
     #[serde(rename = "transfer period")]
     TransferPeriod,
+    #[serde(skip_deserializing)]
+    Unknown(String),
     // Non standard
     /// Non standard 'flir' domain registry status for nameservers.
     Ok,
+}
+
+impl From<String> for Status {
+    fn from(s: String) -> Self {
+        use Status::*;
+        match s.as_str() {
+            "validated" => Validated,
+            "renew prohibited" => RenewProhibited,
+            "update prohibited" => UpdateProhibited,
+            "transfer prohibited" => TransferProhibited,
+            "delete prohibited" => DeleteProhibited,
+            "proxy" => Proxy,
+            "private" => Private,
+            "removed" => Removed,
+            "obscured" => Obscured,
+            "associated" => Associated,
+            "active" => Active,
+            "inactive" => Inactive,
+            "locked" => Locked,
+            "pending create" => PendingCreate,
+            "pending renew" => PendingRenew,
+            "pending transfer" => PendingTransfer,
+            "pending update" => PendingUpdate,
+            "pending delete" => PendingDelete,
+            // From RFC8056
+            "add period" => AddPeriod,
+            "auto renew period" => AutoRenewPeriod,
+            "client delete prohibited" => ClientDeleteProhibited,
+            "client hold" => ClientHold,
+            "client renew prohibited" => ClientRenewProhibited,
+            "client transfer prohibited" => ClientTransferProhibited,
+            "client update prohibited" => ClientUpdateProhibited,
+            "pending restore" => PendingRestore,
+            "redemption period" => RedemptionPeriod,
+            "renew period" => RenewPeriod,
+            "server delete prohibited" => ServerDeleteProhibited,
+            "server renew prohibited" => ServerRenewProhibited,
+            "server transfer prohibited" => ServerTransferProhibited,
+            "server update prohibited" => ServerUpdateProhibited,
+            "server hold" => ServerHold,
+            "transfer period" => TransferPeriod,
+            "ok" => Ok,
+            _ => Unknown(s),
+        }
+    }
 }
 
 #[skip_serializing_none]
@@ -547,7 +593,7 @@ pub struct Event {
 
 #[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Events(Vec<Event>);
+pub struct Events(pub Vec<Event>);
 
 impl Events {
     pub fn action_date(&self, action: EventAction) -> Option<DateTime<FixedOffset>> {
@@ -842,7 +888,7 @@ pub struct Domain {
     pub rdap_conformance: Option<Vec<String>>,
     pub notices: Option<NoticesOrRemarks>,
     pub port43: Option<String>,
-    pub status: Option<Vec<String>>,
+    pub status: Option<Vec<Status>>,
     pub lang: Option<String>,
     pub object_class_name: String,
     // fred extension

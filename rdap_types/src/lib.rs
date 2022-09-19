@@ -493,7 +493,7 @@ impl From<String> for Status {
 }
 
 #[skip_serializing_none]
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Default)]
 pub struct IpAddresses {
     pub v4: Option<Vec<Ipv4Addr>>,
     pub v6: Option<Vec<Ipv6Addr>>,

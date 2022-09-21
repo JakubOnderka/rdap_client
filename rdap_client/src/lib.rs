@@ -4,6 +4,7 @@
 
 use bytes::BytesMut;
 use ip_network::IpNetwork;
+use rdap_types as parser;
 use reqwest::{header, IntoUrl};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
@@ -12,7 +13,6 @@ use std::net::IpAddr;
 use std::time::Duration;
 
 pub mod bootstrap;
-pub mod parser;
 
 /// Query value for search domain request.
 #[derive(Debug)]

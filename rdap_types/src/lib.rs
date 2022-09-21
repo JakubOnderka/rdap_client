@@ -2,6 +2,7 @@ use chrono::{DateTime, FixedOffset, Offset, TimeZone, Utc};
 use serde::de::{IntoDeserializer, SeqAccess, Unexpected, Visitor};
 use serde::ser::SerializeSeq;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
+use serde_with::skip_serializing_none;
 use std::convert::TryFrom;
 use std::fmt;
 use std::fmt::Write;
@@ -122,6 +123,7 @@ impl<'de> Deserialize<'de> for CountryCode {
 }
 
 /// https://tools.ietf.org/html/rfc7483#section-4.2
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Link {
     pub value: Option<String>,
@@ -139,6 +141,7 @@ pub struct Link {
 ///
 /// [RFC 7483]: https://tools.ietf.org/html/rfc7483#section-10.2.4
 /// [RDAP JSON Values]: https://www.iana.org/assignments/rdap-json-values/rdap-json-values.xhtml
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
 #[serde(rename_all = "lowercase")]
 #[serde(remote = "Role")]
@@ -199,6 +202,7 @@ impl Serialize for Role {
 }
 
 /// https://tools.ietf.org/html/rfc7483#section-4.8
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PublicId {
     #[serde(rename = "type")]
@@ -206,6 +210,7 @@ pub struct PublicId {
     pub identifier: String,
 }
 
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum JCardType {
@@ -213,6 +218,7 @@ pub enum JCardType {
 }
 
 /// https://tools.ietf.org/html/rfc6350#section-4
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq)]
 #[serde(rename_all = "kebab-case")]
 #[serde(remote = "JCardItemDataType")]
@@ -332,6 +338,7 @@ impl Serialize for JCardItem {
 }
 
 /// https://tools.ietf.org/html/rfc7095
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 pub struct JCard(JCardType, Vec<JCardItem>);
 
@@ -350,6 +357,7 @@ impl JCard {
     }
 }
 
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Entity {
@@ -369,8 +377,8 @@ pub struct Entity {
 }
 
 /// https://tools.ietf.org/html/rfc7483#section-10.2.2
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
-#[serde(rename_all = "lowercase")]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+#[serde(rename_all = "lowercase", from = "String")]
 pub enum Status {
     Validated,
     #[serde(rename = "renew prohibited")]
@@ -432,18 +440,67 @@ pub enum Status {
     ServerHold,
     #[serde(rename = "transfer period")]
     TransferPeriod,
+    #[serde(skip_deserializing)]
+    Unknown(String),
     // Non standard
     /// Non standard 'flir' domain registry status for nameservers.
     Ok,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+impl From<String> for Status {
+    fn from(s: String) -> Self {
+        use Status::*;
+        match s.as_str() {
+            "validated" => Validated,
+            "renew prohibited" => RenewProhibited,
+            "update prohibited" => UpdateProhibited,
+            "transfer prohibited" => TransferProhibited,
+            "delete prohibited" => DeleteProhibited,
+            "proxy" => Proxy,
+            "private" => Private,
+            "removed" => Removed,
+            "obscured" => Obscured,
+            "associated" => Associated,
+            "active" => Active,
+            "inactive" => Inactive,
+            "locked" => Locked,
+            "pending create" => PendingCreate,
+            "pending renew" => PendingRenew,
+            "pending transfer" => PendingTransfer,
+            "pending update" => PendingUpdate,
+            "pending delete" => PendingDelete,
+            // From RFC8056
+            "add period" => AddPeriod,
+            "auto renew period" => AutoRenewPeriod,
+            "client delete prohibited" => ClientDeleteProhibited,
+            "client hold" => ClientHold,
+            "client renew prohibited" => ClientRenewProhibited,
+            "client transfer prohibited" => ClientTransferProhibited,
+            "client update prohibited" => ClientUpdateProhibited,
+            "pending restore" => PendingRestore,
+            "redemption period" => RedemptionPeriod,
+            "renew period" => RenewPeriod,
+            "server delete prohibited" => ServerDeleteProhibited,
+            "server renew prohibited" => ServerRenewProhibited,
+            "server transfer prohibited" => ServerTransferProhibited,
+            "server update prohibited" => ServerUpdateProhibited,
+            "server hold" => ServerHold,
+            "transfer period" => TransferPeriod,
+            "ok" => Ok,
+            _ => Unknown(s),
+        }
+    }
+}
+
+#[skip_serializing_none]
+#[derive(Serialize, Deserialize, Debug, Default)]
 pub struct IpAddresses {
     pub v4: Option<Vec<Ipv4Addr>>,
     pub v6: Option<Vec<Ipv6Addr>>,
 }
 
 /// https://tools.ietf.org/html/rfc7483#section-5.2
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Nameserver {
@@ -460,6 +517,7 @@ pub struct Nameserver {
 }
 
 /// https://tools.ietf.org/html/rfc7483#section-10.2.3 and https://www.iana.org/assignments/rdap-json-values/rdap-json-values.xhtml
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
 #[serde(rename_all = "lowercase")]
 #[serde(remote = "EventAction")]
@@ -522,6 +580,7 @@ impl Serialize for EventAction {
 }
 
 /// https://tools.ietf.org/html/rfc7483#section-4.5
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Event {
@@ -532,8 +591,9 @@ pub struct Event {
     pub links: Option<Link>,
 }
 
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Events(Vec<Event>);
+pub struct Events(pub Vec<Event>);
 
 impl Events {
     pub fn action_date(&self, action: EventAction) -> Option<DateTime<FixedOffset>> {
@@ -554,6 +614,7 @@ impl<'a> IntoIterator for &'a Events {
 }
 
 /// https://tools.ietf.org/html/rfc7483#section-10.2.1 and https://www.iana.org/assignments/rdap-json-values/rdap-json-values.xhtml
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
 #[serde(remote = "NoticeOrRemarkType")]
 pub enum NoticeOrRemarkType {
@@ -605,6 +666,7 @@ impl Serialize for NoticeOrRemarkType {
     }
 }
 
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 pub struct NoticeOrRemark {
     pub title: Option<String>,
@@ -614,6 +676,7 @@ pub struct NoticeOrRemark {
     pub links: Option<Vec<Link>>,
 }
 
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 pub struct NoticesOrRemarks(Vec<NoticeOrRemark>);
 
@@ -644,6 +707,7 @@ impl<'a> IntoIterator for &'a NoticesOrRemarks {
 
 /// An enum signifying the IP protocol version of the network: "v4" signifies an IPv4 network,
 /// and "v6" signifies an IPv6 network.
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
 #[serde(rename_all = "camelCase")]
 pub enum IpVersion {
@@ -652,6 +716,7 @@ pub enum IpVersion {
 }
 
 /// From 'cidr0' extension. https://bitbucket.org/nroecg/nro-rdap-cidr/src/master/nro-rdap-cidr.txt
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 pub struct CidrOCidr {
     pub v4prefix: Option<Ipv4Addr>,
@@ -659,6 +724,7 @@ pub struct CidrOCidr {
     pub length: u8,
 }
 
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct IpNetwork {
@@ -690,6 +756,7 @@ pub struct IpNetwork {
 }
 
 /// https://tools.ietf.org/html/rfc7483#section-5.5
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct AutNum {
@@ -713,6 +780,7 @@ pub struct AutNum {
 }
 
 /// https://tools.ietf.org/html/rfc7483#section-10.2.5
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "lowercase")]
 enum DomainVariantRelation {
@@ -725,6 +793,7 @@ enum DomainVariantRelation {
     Conjoined,
 }
 
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct VariantName {
@@ -732,6 +801,7 @@ pub struct VariantName {
     unicode_name: String,
 }
 
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Variant {
@@ -741,6 +811,7 @@ pub struct Variant {
 }
 
 /// For field sizes see https://tools.ietf.org/html/rfc4034#section-5.1
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct DsData {
@@ -753,6 +824,7 @@ pub struct DsData {
 }
 
 /// For field sizes see https://tools.ietf.org/html/rfc4034#section-2.1
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct KeyData {
@@ -764,6 +836,7 @@ pub struct KeyData {
     links: Option<Vec<Link>>,
 }
 
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct SecureDns {
@@ -775,6 +848,7 @@ pub struct SecureDns {
 }
 
 /// https://fred.nic.cz/rdap-extension/
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct FredKeyset {
@@ -786,6 +860,7 @@ pub struct FredKeyset {
 }
 
 /// https://fred.nic.cz/rdap-extension/
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct FredNsset {
@@ -796,6 +871,7 @@ pub struct FredNsset {
 }
 
 /// https://tools.ietf.org/html/rfc7483#section-5.3
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Domain {
@@ -812,7 +888,7 @@ pub struct Domain {
     pub rdap_conformance: Option<Vec<String>>,
     pub notices: Option<NoticesOrRemarks>,
     pub port43: Option<String>,
-    pub status: Option<Vec<String>>,
+    pub status: Option<Vec<Status>>,
     pub lang: Option<String>,
     pub object_class_name: String,
     // fred extension
@@ -823,6 +899,7 @@ pub struct Domain {
 }
 
 /// https://tools.ietf.org/html/rfc7483.html#section-7
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Help {
@@ -831,6 +908,7 @@ pub struct Help {
 }
 
 // https://tools.ietf.org/html/rfc7483#section-8
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct EntitySearchResults {
@@ -840,6 +918,7 @@ pub struct EntitySearchResults {
     results: Vec<Entity>,
 }
 
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct DomainSearchResults {
@@ -849,6 +928,7 @@ pub struct DomainSearchResults {
     results: Vec<Entity>,
 }
 
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct NameserverSearchResults {
@@ -858,6 +938,7 @@ pub struct NameserverSearchResults {
     results: Vec<Entity>,
 }
 
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct ArinOriginas0OriginautnumsResults {
@@ -904,6 +985,7 @@ where
 }
 
 /// https://tools.ietf.org/html/rfc7483#section-6
+#[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Error {

@@ -30,7 +30,7 @@ serde_json = "1.0"
 rdap_types = { path = "../rdap_types", version = "0.1.0" }
 
 [dev-dependencies]
-criterion = "0.3"
+criterion = "0.4"
 
 [[bench]]
 name = "benchmark"

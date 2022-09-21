@@ -36,9 +36,6 @@ async fn main() {
 }
 ```
 
-Because of usage [async-await](https://blog.rust-lang.org/2019/11/07/Async-await-stable.html) syntax, minimum required 
-Rust version is 1.39.0.
-
 ## Supported standards
 
 * [RFC 7480: HTTP Usage in the Registration Data Access Protocol (RDAP)](https://tools.ietf.org/html/rfc7480)

@@ -12,7 +12,8 @@ documentation = "https://docs.rs/rdap_client"
 description = """
 Async and fast RDAP client and parser.
 """
-edition = "2018"
+edition = "2021"
+rust-version = "1.56"
 exclude = [".travis.yml", "test_data/*"]
 
 [badges]

@@ -145,7 +145,7 @@ impl Client {
         Self { client }
     }
 
-    async fn get_boostrap<T: DeserializeOwned>(
+    async fn get_bootstrap<T: DeserializeOwned>(
         &self,
         url: &str,
     ) -> Result<parser::Bootstrap<T>, reqwest::Error> {
@@ -154,22 +154,22 @@ impl Client {
 
     pub async fn fetch_bootstrap_asn(&self) -> Result<bootstrap::Asn, Box<dyn std::error::Error>> {
         let bootstrap = self
-            .get_boostrap("https://data.iana.org/rdap/asn.json")
+            .get_bootstrap("https://data.iana.org/rdap/asn.json")
             .await?;
         Ok(bootstrap::Asn::try_from(&bootstrap)?)
     }
 
     pub async fn fetch_bootstrap_dns(&self) -> Result<bootstrap::Dns, Box<dyn std::error::Error>> {
         let bootstrap = self
-            .get_boostrap("https://data.iana.org/rdap/dns.json")
+            .get_bootstrap("https://data.iana.org/rdap/dns.json")
             .await?;
         Ok(bootstrap::Dns::from(&bootstrap))
     }
 
     pub async fn fetch_bootstrap_ip(&self) -> Result<bootstrap::Ip, Box<dyn std::error::Error>> {
         let (parsed_ipv4, parsed_ipv6) = futures::join!(
-            self.get_boostrap("https://data.iana.org/rdap/ipv4.json"),
-            self.get_boostrap("https://data.iana.org/rdap/ipv6.json"),
+            self.get_bootstrap("https://data.iana.org/rdap/ipv4.json"),
+            self.get_bootstrap("https://data.iana.org/rdap/ipv6.json"),
         );
         Ok(bootstrap::Ip::try_from((&parsed_ipv4?, &parsed_ipv6?))?)
     }
@@ -178,7 +178,7 @@ impl Client {
         &self,
     ) -> Result<bootstrap::ObjectTags, Box<dyn std::error::Error>> {
         let bootstrap = self
-            .get_boostrap("https://data.iana.org/rdap/object-tags.json")
+            .get_bootstrap("https://data.iana.org/rdap/object-tags.json")
             .await?;
         Ok(bootstrap::ObjectTags::from(&bootstrap))
     }

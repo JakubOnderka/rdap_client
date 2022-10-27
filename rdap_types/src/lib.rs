@@ -640,6 +640,27 @@ pub enum NoticeOrRemarkType {
     #[serde(rename = "response truncated due to authorization")]
     /// Non standard value from 'abudhabi' domain registry.
     ResponseTruncatedDueToAuthorization,
+    /// Non standard values from Afnic (fr, etc.) registry
+    #[serde(rename = "registrar restricted publication")]
+    RegistrarRestrictedPublication,
+    /// Non standard values from Afnic (fr, etc.) registry
+    #[serde(rename = "contact restricted publication")]
+    ContactRestrictedPublication,
+    /// Non standard values from Afnic (fr, etc.) registry
+    #[serde(rename = "contact obsolete")]
+    ContactObsolete,
+    /// Non standard values from Afnic (fr, etc.) registry
+    #[serde(rename = "contact type")]
+    ContactType,
+    /// Non standard values from Afnic (fr, etc.) registry
+    #[serde(rename = "reachable")]
+    Reachable,
+    /// Non standard values from Afnic (fr, etc.) registry
+    #[serde(rename = "eligibility status")]
+    EligibilityStatus,
+    /// Non standard values from Afnic (fr, etc.) registry
+    #[serde(rename = "registrar name")]
+    RegistrarName,
 }
 
 impl<'de> Deserialize<'de> for NoticeOrRemarkType {
@@ -1220,6 +1241,12 @@ mod tests {
     fn test_parse_domain_24() {
         let parsed: Domain = deserialize_and_serialize("domain/domain_24.json");
         assert_eq!("XXXX", parsed.handle.unwrap());
+    }
+
+    #[test]
+    fn test_parse_domain_afnic() {
+        let parsed: Domain = deserialize_and_serialize("domain/domain_afnic.json");
+        assert_eq!("DOM000000181261-FRNIC", parsed.handle.unwrap());
     }
 
     #[test]

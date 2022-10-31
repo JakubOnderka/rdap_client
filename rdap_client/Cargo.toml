@@ -29,6 +29,7 @@ chrono = { version = "0.4.10", features = ["serde"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 rdap_types = { path = "../rdap_types", version = "0.1.0" }
+url = "2.3.1"
 
 [dev-dependencies]
 criterion = "0.4"

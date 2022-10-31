@@ -9,6 +9,7 @@ use serde::Serialize;
 use std::convert::TryFrom;
 use std::net::IpAddr;
 use std::time::Duration;
+use url::Url;
 
 pub mod bootstrap;
 
@@ -127,6 +128,7 @@ fn is_rdap_response(response: &reqwest::Response) -> bool {
 #[derive(Default)]
 pub struct Client {
     client: reqwest::Client,
+    base_bootstrap_url: String,
 }
 
 impl Client {
@@ -142,7 +144,14 @@ impl Client {
 
     /// Creates new `Client` with given [reqwest](https://docs.rs/reqwest/) client.
     pub fn with_reqwest_client(client: reqwest::Client) -> Self {
-        Self { client }
+        Self {
+            client,
+            base_bootstrap_url: "https://data.iana.org/rdap/".into(),
+        }
+    }
+
+    pub fn set_base_bootstrap_url(&mut self, override_url: &str) {
+        self.base_bootstrap_url = String::from(override_url)
     }
 
     async fn get_bootstrap<T: DeserializeOwned>(
@@ -154,31 +163,41 @@ impl Client {
 
     pub async fn fetch_bootstrap_asn(&self) -> Result<bootstrap::Asn, Box<dyn std::error::Error>> {
         let bootstrap = self
-            .get_bootstrap("https://data.iana.org/rdap/asn.json")
+            .get_bootstrap(&self.build_bootstrap_url("asn.json")?)
             .await?;
         Ok(bootstrap::Asn::try_from(&bootstrap)?)
     }
 
     pub async fn fetch_bootstrap_dns(&self) -> Result<bootstrap::Dns, Box<dyn std::error::Error>> {
         let bootstrap = self
-            .get_bootstrap("https://data.iana.org/rdap/dns.json")
+            .get_bootstrap(&self.build_bootstrap_url("dns.json")?)
             .await?;
         Ok(bootstrap::Dns::from(&bootstrap))
     }
 
     pub async fn fetch_bootstrap_ip(&self) -> Result<bootstrap::Ip, Box<dyn std::error::Error>> {
+        let ipv4_url = &self.build_bootstrap_url("ipv4.json")?;
+        let ipv6_url = &self.build_bootstrap_url("ipv6.json")?;
         let (parsed_ipv4, parsed_ipv6) = futures::join!(
-            self.get_bootstrap("https://data.iana.org/rdap/ipv4.json"),
-            self.get_bootstrap("https://data.iana.org/rdap/ipv6.json"),
+            self.get_bootstrap(ipv4_url),
+            self.get_bootstrap(ipv6_url),
         );
         Ok(bootstrap::Ip::try_from((&parsed_ipv4?, &parsed_ipv6?))?)
+    }
+
+    fn build_bootstrap_url(
+        &self,
+        relative_component: &str
+        ) -> Result<String, Box<dyn std::error::Error>> {
+        let base = Url::parse(&self.base_bootstrap_url)?;
+        Ok(String::from(base.join(relative_component)?))
     }
 
     pub async fn fetch_bootstrap_object_tags(
         &self,
     ) -> Result<bootstrap::ObjectTags, Box<dyn std::error::Error>> {
         let bootstrap = self
-            .get_bootstrap("https://data.iana.org/rdap/object-tags.json")
+            .get_bootstrap(&self.build_bootstrap_url("object-tags.json")?)
             .await?;
         Ok(bootstrap::ObjectTags::from(&bootstrap))
     }

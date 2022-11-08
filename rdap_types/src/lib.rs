@@ -656,6 +656,21 @@ pub enum NoticeOrRemarkType {
     #[serde(rename = "reachable")]
     Reachable,
     /// Non standard values from Afnic (fr, etc.) registry
+    #[serde(rename = "reach medium")]
+    ReachMedium,
+    /// Non standard values from Afnic (fr, etc.) registry
+    #[serde(rename = "reach date")]
+    ReachDate,
+    /// Non standard values from Afnic (fr, etc.) registry
+    #[serde(rename = "reach source")]
+    ReachSource,
+    /// Non standard values from Afnic (fr, etc.) registry
+    #[serde(rename = "eligibility date")]
+    EligibilityDate,
+    /// Non standard values from Afnic (fr, etc.) registry
+    #[serde(rename = "eligibility source")]
+    EligibilitySource,
+    /// Non standard values from Afnic (fr, etc.) registry
     #[serde(rename = "eligibility status")]
     EligibilityStatus,
     /// Non standard values from Afnic (fr, etc.) registry
